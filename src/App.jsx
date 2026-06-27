@@ -11,8 +11,7 @@ function App() {
       <div className="app">
         <nav className="app-nav">
           <NavLink to="/" className="nav-logo">
-            <i className="fa-solid fa-scissors"></i>
-            <span>BookEase</span>
+            <img src="/image.png" alt="BookEase" className="nav-logo-img" />
           </NavLink>
           <div className="nav-links">
             <NavLink to="/" end>Accueil</NavLink>

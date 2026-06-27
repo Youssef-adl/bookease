@@ -21,26 +21,13 @@
 .nav-logo {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-family: var(--font-display);
-  font-size: 1.3rem;
-  font-weight: 900;
-  color: #fff;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
+  flex-shrink: 0;
 }
 
-.nav-logo i {
-  width: 36px;
-  height: 36px;
-  border-radius: 6px;
-  background: var(--primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-size: 0.9rem;
-  box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+.nav-logo-img {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
 }
 
 .nav-links {
@@ -84,8 +71,8 @@
     padding: 12px 16px;
     gap: 10px;
   }
-  .nav-logo {
-    font-size: 1.1rem;
+  .nav-logo-img {
+    height: 32px;
   }
   .nav-links {
     width: 100%;
