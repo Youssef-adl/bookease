@@ -22,29 +22,22 @@ const MONTH_NAMES = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet',
 const DAY_NAMES = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim']
 
 const SLOTS = [
-  { time: '09:00', taken: false },
-  { time: '09:30', taken: false },
-  { time: '10:00', taken: true },
-  { time: '10:30', taken: false },
-  { time: '11:00', taken: false },
-  { time: '11:30', taken: true },
-  { time: '14:00', taken: true },
-  { time: '14:30', taken: false },
-  { time: '15:00', taken: false },
-  { time: '15:30', taken: false },
-  { time: '16:00', taken: true },
-  { time: '16:30', taken: false },
-  { time: '17:00', taken: false },
-  { time: '17:30', taken: false },
+  { time: '09:00', taken: false }, { time: '09:30', taken: false },
+  { time: '10:00', taken: true }, { time: '10:30', taken: false },
+  { time: '11:00', taken: false }, { time: '11:30', taken: true },
+  { time: '14:00', taken: true }, { time: '14:30', taken: false },
+  { time: '15:00', taken: false }, { time: '15:30', taken: false },
+  { time: '16:00', taken: true }, { time: '16:30', taken: false },
+  { time: '17:00', taken: false }, { time: '17:30', taken: false },
 ]
 
 const CATEGORIES = [
-  { id: 'all', label: 'Tous' },
-  { id: 'coupe', label: 'Coupe' },
-  { id: 'homme', label: 'Homme' },
-  { id: 'couleur', label: 'Couleur' },
-  { id: 'coiffage', label: 'Coiffage' },
-  { id: 'soin', label: 'Soin' },
+  { id: 'all', label: 'Tous', icon: 'fa-solid fa-grip' },
+  { id: 'coupe', label: 'Coupe', icon: 'fa-solid fa-scissors' },
+  { id: 'homme', label: 'Homme', icon: 'fa-solid fa-user' },
+  { id: 'couleur', label: 'Couleur', icon: 'fa-solid fa-palette' },
+  { id: 'coiffage', label: 'Coiffage', icon: 'fa-solid fa-wind' },
+  { id: 'soin', label: 'Soin', icon: 'fa-solid fa-droplet' },
 ]
 
 export default function Stepper() {
@@ -181,205 +174,173 @@ export default function Stepper() {
   const availableSlots = SLOTS.filter(s => !s.taken).length
 
   return (
-    <div className="stepper-page">
-      {/* SCATTERED STARS */}
-      <span className="star-deco" style={{ top: 80, left: '5%' }}></span>
-      <span className="star-deco sm" style={{ top: 160, right: '8%' }}></span>
-      <span className="star-deco lg" style={{ top: 340, left: '2%' }}></span>
-      <span className="star-deco" style={{ top: 520, right: '3%' }}></span>
-      <span className="star-deco sm" style={{ bottom: 200, left: '10%' }}></span>
-
+    <div className="bk-page">
       {toast && (
-        <div className={`toast ${toast.type}`}>
+        <div className={`bk-toast ${toast.type}`}>
           <i className={`fa-solid ${toast.type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation'}`}></i>
           {toast.msg}
         </div>
       )}
 
-      <div className="stepper-header">
-        <div className="stepper-track">
+      {/* PROGRESS BAR */}
+      <div className="bk-progress">
+        <div className="bk-progress-track">
           {STEP_LABELS.map((label, i) => {
             const num = i + 1
             const isActive = num === step
             const isDone = num < step
             return (
-              <div key={num} className="stepper-step-group">
-                <div
-                  className={`stepper-step ${isActive ? 'active' : ''} ${isDone ? 'done' : ''}`}
+              <div key={num} className="bk-progress-step">
+                <button
+                  className={`bk-step-btn ${isActive ? 'active' : ''} ${isDone ? 'done' : ''}`}
                   onClick={() => num <= step && goStep(num)}
+                  disabled={num > step}
                 >
-                  <div className="step-circle">
+                  <span className="bk-step-num">
                     {isDone ? <i className="fa-solid fa-check"></i> : num}
-                  </div>
-                  <span className="step-label">{label}</span>
-                </div>
-                {i < 3 && <div className={`step-connector ${isDone ? 'done' : ''}`} />}
+                  </span>
+                  <span className="bk-step-text">{label}</span>
+                </button>
+                {i < 3 && <div className={`bk-step-line ${isDone ? 'done' : ''}`} />}
               </div>
             )
           })}
         </div>
       </div>
 
-      <div className="stepper-content">
-        {/* STEP 1: Services */}
+      <div className="bk-content">
+        {/* ===== STEP 1: SERVICES ===== */}
         {step === 1 && !completed && (
-          <div className="step-panel" key="step1">
-            <div className="step-header-row">
+          <div className="bk-panel" key="step1">
+            <div className="bk-panel-header">
+              <div className="bk-panel-icon"><i className="fa-solid fa-scissors"></i></div>
               <div>
-                <h2 className="step-title">
-                  <i className="fa-solid fa-scissors step-title-icon"></i>
-                  Choisissez votre service
-                </h2>
-                <p className="step-sub">Sélectionnez le soin qui vous convient parmi notre catalogue complet.</p>
-              </div>
-              <div className="step-summary-mini">
-                <div className="summary-mini-label">6 services</div>
-                <div className="summary-mini-sub">disponibles</div>
+                <h2 className="bk-title">Choisissez votre service</h2>
+                <p className="bk-sub">Sélectionnez le soin qui vous convient.</p>
               </div>
             </div>
 
-            <div className="category-filters">
+            <div className="bk-filters">
               {CATEGORIES.map(c => (
                 <button
                   key={c.id}
-                  className={`category-btn ${activeCategory === c.id ? 'active' : ''}`}
+                  className={`bk-filter ${activeCategory === c.id ? 'active' : ''}`}
                   onClick={() => setActiveCategory(c.id)}
                 >
+                  <i className={c.icon}></i>
                   {c.label}
                 </button>
               ))}
             </div>
 
-            <div className="services-grid">
+            <div className="bk-grid-2">
               {filteredServices.map(s => (
                 <div
                   key={s.id}
-                  className={`service-card ${selectedService === s.id ? 'selected' : ''}`}
+                  className={`bk-service ${selectedService === s.id ? 'selected' : ''}`}
                   onClick={() => setSelectedService(s.id)}
                 >
-                  {s.popular && <span className="service-popular-badge"><i className="fa-solid fa-fire"></i> Populaire</span>}
-                  <div className="service-img-wrap">
-                    <img src={s.img} alt={s.name} className="service-img" />
-                    <div className="service-img-overlay">
-                      <i className={s.icon}></i>
+                  {s.popular && <span className="bk-badge-popular"><i className="fa-solid fa-fire"></i> Populaire</span>}
+                  <div className="bk-service-img">
+                    <img src={s.img} alt={s.name} />
+                    <div className="bk-service-overlay">
+                      <span className="bk-service-price">{s.price} €</span>
                     </div>
                   </div>
-                  <div className="service-info">
-                    <div className="service-name">{s.name}</div>
-                    <div className="service-desc">{s.desc}</div>
-                    <div className="service-meta">
-                      <span><i className="fa-regular fa-clock"></i> {s.duration}</span>
-                      <span className="service-price">{s.price} €</span>
+                  <div className="bk-service-body">
+                    <div className="bk-service-top">
+                      <h3 className="bk-service-name">{s.name}</h3>
+                      <span className="bk-service-dur"><i className="fa-regular fa-clock"></i> {s.duration}</span>
                     </div>
+                    <p className="bk-service-desc">{s.desc}</p>
                   </div>
                   {selectedService === s.id && (
-                    <div className="service-check"><i className="fa-solid fa-check"></i></div>
+                    <div className="bk-check"><i className="fa-solid fa-check"></i></div>
                   )}
                 </div>
               ))}
             </div>
 
             {selectedService && (
-              <div className="selected-service-preview">
-                <div className="preview-icon"><i className={service?.icon}></i></div>
-                <div className="preview-info">
-                  <div className="preview-name">{service?.name}</div>
-                  <div className="preview-meta">{service?.duration} — {service?.price} €</div>
+              <div className="bk-float-bar">
+                <div className="bk-float-info">
+                  <div className="bk-float-icon"><i className={service?.icon}></i></div>
+                  <div>
+                    <div className="bk-float-name">{service?.name}</div>
+                    <div className="bk-float-meta">{service?.duration} — {service?.price} €</div>
+                  </div>
                 </div>
-                <button className="btn btn-primary" onClick={() => goStep(2)}>
+                <button className="bk-btn bk-btn-primary" onClick={() => goStep(2)}>
                   Continuer <i className="fa-solid fa-arrow-right"></i>
                 </button>
               </div>
             )}
 
-            <div className="step-actions">
+            <div className="bk-actions">
               <div></div>
-              <button
-                className="btn btn-primary"
-                disabled={!selectedService}
-                onClick={() => goStep(2)}
-              >
+              <button className="bk-btn bk-btn-primary" disabled={!selectedService} onClick={() => goStep(2)}>
                 Continuer <i className="fa-solid fa-arrow-right"></i>
               </button>
             </div>
           </div>
         )}
 
-        {/* STEP 2: Coiffeurs */}
+        {/* ===== STEP 2: COIFFEURS ===== */}
         {step === 2 && !completed && (
-          <div className="step-panel" key="step2">
-            <div className="step-header-row">
+          <div className="bk-panel" key="step2">
+            <div className="bk-panel-header">
+              <div className="bk-panel-icon"><i className="fa-solid fa-user-group"></i></div>
               <div>
-                <h2 className="step-title">
-                  <i className="fa-solid fa-user-group step-title-icon"></i>
-                  Choisissez votre coiffeur
-                </h2>
-                <p className="step-sub">Sélectionnez le professionnel de votre choix. Voir les profils pour plus de détails.</p>
-              </div>
-              <div className="step-summary-mini">
-                <div className="summary-mini-label">{COIFFEURS.filter(c => c.available).length} disponibles</div>
-                <div className="summary-mini-sub">aujourd'hui</div>
+                <h2 className="bk-title">Choisissez votre coiffeur</h2>
+                <p className="bk-sub">Sélectionnez le professionnel de votre choix.</p>
               </div>
             </div>
 
-            <div className="coiffeurs-list">
+            <div className="bk-coiffeurs">
               {COIFFEURS.map(c => (
-                <div key={c.id} className={`coiffeur-wrapper ${selectedCoiffeur === c.id ? 'selected' : ''} ${!c.available ? 'unavailable-card' : ''}`}>
-                  <div
-                    className="coiffeur-card"
-                    onClick={() => c.available && setSelectedCoiffeur(c.id)}
-                  >
-                    <img className="coiffeur-avatar" src={c.img} alt={c.name} />
-                    <div className="coiffeur-info">
-                      <div className="coiffeur-name">{c.name}</div>
-                      <div className="coiffeur-spec">{c.spec}</div>
-                      <div className="coiffeur-stars">
+                <div key={c.id} className={`bk-coiffeur ${selectedCoiffeur === c.id ? 'selected' : ''} ${!c.available ? 'disabled' : ''}`}>
+                  <div className="bk-coiffeur-main" onClick={() => c.available && setSelectedCoiffeur(c.id)}>
+                    <div className="bk-coiffeur-avatar-wrap">
+                      <img className="bk-coiffeur-avatar" src={c.img} alt={c.name} />
+                      <span className={`bk-coiffeur-status ${c.available ? 'on' : 'off'}`}></span>
+                    </div>
+                    <div className="bk-coiffeur-info">
+                      <h3 className="bk-coiffeur-name">{c.name}</h3>
+                      <p className="bk-coiffeur-spec">{c.spec}</p>
+                      <div className="bk-coiffeur-rating">
                         {[1,2,3,4,5].map(i => (
                           <i key={i} className={`fa-${i <= c.rating ? 'solid' : 'regular'} fa-star`}></i>
                         ))}
-                        <span className="coiffeur-reviews">({c.reviews} avis)</span>
+                        <span>{c.rating}.0</span>
+                        <span className="bk-coiffeur-reviews">({c.reviews} avis)</span>
                       </div>
                     </div>
-                    <span className={`coiffeur-badge ${c.available ? 'available' : 'unavailable'}`}>
-                      <i className={`fa-solid ${c.available ? 'fa-circle-check' : 'fa-clock'}`}></i>
-                      {c.available ? 'Disponible' : 'Complet'}
-                    </span>
-                    <button
-                      className="coiffeur-expand-btn"
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        setExpandedCoiffeur(expandedCoiffeur === c.id ? null : c.id)
-                      }}
-                    >
-                      <i className={`fa-solid fa-chevron-${expandedCoiffeur === c.id ? 'up' : 'down'}`}></i>
-                    </button>
-                    <div className="coiffeur-radio">
-                      {selectedCoiffeur === c.id && <div className="radio-dot"></div>}
+                    <div className="bk-coiffeur-right">
+                      <span className={`bk-status-badge ${c.available ? 'available' : 'unavailable'}`}>
+                        {c.available ? 'Disponible' : 'Complet'}
+                      </span>
+                      <button
+                        className="bk-expand-btn"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setExpandedCoiffeur(expandedCoiffeur === c.id ? null : c.id)
+                        }}
+                      >
+                        <i className={`fa-solid fa-chevron-${expandedCoiffeur === c.id ? 'up' : 'down'}`}></i>
+                      </button>
                     </div>
                   </div>
 
                   {expandedCoiffeur === c.id && (
-                    <div className="coiffeur-details">
-                      <p className="coiffeur-bio">{c.bio}</p>
-                      <div className="coiffeur-meta-row">
-                        <div className="coiffeur-meta-item">
-                          <i className="fa-solid fa-briefcase"></i>
-                          <span>{c.experience}</span>
-                        </div>
-                        <div className="coiffeur-meta-item">
-                          <i className="fa-solid fa-star"></i>
-                          <span>{c.rating}/5</span>
-                        </div>
-                        <div className="coiffeur-meta-item">
-                          <i className="fa-solid fa-comment"></i>
-                          <span>{c.reviews} avis</span>
-                        </div>
+                    <div className="bk-coiffeur-expand">
+                      <p className="bk-coiffeur-bio">{c.bio}</p>
+                      <div className="bk-coiffeur-stats">
+                        <div className="bk-stat"><i className="fa-solid fa-briefcase"></i> {c.experience}</div>
+                        <div className="bk-stat"><i className="fa-solid fa-star"></i> {c.rating}/5</div>
+                        <div className="bk-stat"><i className="fa-solid fa-comment"></i> {c.reviews} avis</div>
                       </div>
-                      <div className="coiffeur-specialties">
-                        <span className="specialties-label">Spécialités :</span>
-                        {c.specialties.map((s, i) => (
-                          <span key={i} className="specialty-tag">{s}</span>
-                        ))}
+                      <div className="bk-tags">
+                        {c.specialties.map((s, i) => <span key={i} className="bk-tag">{s}</span>)}
                       </div>
                     </div>
                   )}
@@ -387,205 +348,187 @@ export default function Stepper() {
               ))}
             </div>
 
-            <div className="step-actions">
-              <button className="btn btn-secondary" onClick={() => goStep(1)}>
+            <div className="bk-actions">
+              <button className="bk-btn bk-btn-outline" onClick={() => goStep(1)}>
                 <i className="fa-solid fa-arrow-left"></i> Retour
               </button>
-              <button
-                className="btn btn-primary"
-                disabled={!selectedCoiffeur}
-                onClick={() => goStep(3)}
-              >
+              <button className="bk-btn bk-btn-primary" disabled={!selectedCoiffeur} onClick={() => goStep(3)}>
                 Continuer <i className="fa-solid fa-arrow-right"></i>
               </button>
             </div>
           </div>
         )}
 
-        {/* STEP 3: Créneau */}
+        {/* ===== STEP 3: CRENEAU ===== */}
         {step === 3 && !completed && (
-          <div className="step-panel" key="step3">
-            <div className="step-header-row">
+          <div className="bk-panel" key="step3">
+            <div className="bk-panel-header">
+              <div className="bk-panel-icon"><i className="fa-solid fa-calendar-day"></i></div>
               <div>
-                <h2 className="step-title">
-                  <i className="fa-solid fa-calendar-day step-title-icon"></i>
-                  Choisissez votre créneau
-                </h2>
-                <p className="step-sub">Sélectionnez la date et l'horaire qui vous conviennent.</p>
-              </div>
-              <div className="step-summary-mini">
-                <div className="summary-mini-label">{availableSlots} créneaux</div>
-                <div className="summary-mini-sub">libres</div>
+                <h2 className="bk-title">Choisissez votre créneau</h2>
+                <p className="bk-sub">Sélectionnez la date et l'horaire qui vous conviennent.</p>
               </div>
             </div>
 
-            <div className="slots-legend">
-              <div className="legend-item"><span className="legend-dot available"></span> Disponible</div>
-              <div className="legend-item"><span className="legend-dot taken"></span> Occupé</div>
-              <div className="legend-item"><span className="legend-dot selected-dot"></span> Sélectionné</div>
-            </div>
-
-            <div className="calendar-card">
-              <div className="cal-header">
-                <button className="cal-nav-btn" onClick={() => changeMonth(-1)}>
+            <div className="bk-calendar">
+              <div className="bk-cal-header">
+                <button className="bk-cal-nav" onClick={() => changeMonth(-1)}>
                   <i className="fa-solid fa-chevron-left"></i>
                 </button>
-                <div className="cal-title">{MONTH_NAMES[calMonth]} {calYear}</div>
-                <button className="cal-nav-btn" onClick={() => changeMonth(1)}>
+                <h3 className="bk-cal-month">{MONTH_NAMES[calMonth]} {calYear}</h3>
+                <button className="bk-cal-nav" onClick={() => changeMonth(1)}>
                   <i className="fa-solid fa-chevron-right"></i>
                 </button>
               </div>
-              <div className="cal-grid">
-                {DAY_NAMES.map(d => (
-                  <div key={d} className="cal-day-name">{d}</div>
-                ))}
+              <div className="bk-cal-weekdays">
+                {DAY_NAMES.map(d => <div key={d} className="bk-cal-wd">{d}</div>)}
+              </div>
+              <div className="bk-cal-grid">
                 {calendarDays.map(d => (
-                  <div
+                  <button
                     key={d.key}
-                    className={`cal-day ${d.isPast ? 'disabled' : ''} ${d.isToday ? 'today' : ''} ${selectedDate === d.day ? 'selected' : ''} ${d.isSunday ? 'sunday' : ''}`}
+                    className={`bk-cal-day ${d.isPast || d.isSunday || !d.day ? 'disabled' : ''} ${d.isToday ? 'today' : ''} ${selectedDate === d.day ? 'selected' : ''}`}
                     onClick={() => d.day && !d.isPast && !d.isSunday && setSelectedDate(d.day)}
+                    disabled={d.isPast || d.isSunday || !d.day}
                   >
-                    {d.day}
-                    {d.isToday && <span className="today-badge">Auj.</span>}
-                  </div>
+                    {d.day || ''}
+                    {d.isToday && <span className="bk-today-dot"></span>}
+                  </button>
                 ))}
+              </div>
+              <div className="bk-cal-legend">
+                <span><span className="bk-legend-dot today-dot"></span> Aujourd'hui</span>
+                <span><span className="bk-legend-dot selected-dot"></span> Sélectionné</span>
               </div>
             </div>
 
             {selectedDate && (
-              <div className="selected-date-info">
+              <div className="bk-date-banner">
                 <i className="fa-solid fa-calendar-check"></i>
-                <span>Votre date : <strong>{formatFullDate()}</strong></span>
+                <span>{formatFullDate()}</span>
               </div>
             )}
 
-            <div className="slots-section">
-              <div className="slots-header">
+            <div className="bk-slots">
+              <h3 className="bk-slots-title">
                 <i className="fa-regular fa-clock"></i>
-                <span>Horaires disponibles — <strong>{formatDate()}</strong></span>
-              </div>
-              <div className="slots-grid">
+                Horaires disponibles
+              </h3>
+              <div className="bk-slots-grid">
                 {SLOTS.map((s, i) => (
-                  <div
+                  <button
                     key={i}
-                    className={`slot-pill ${s.taken ? 'taken' : ''} ${selectedSlot === s.time ? 'selected' : ''}`}
+                    className={`bk-slot ${s.taken ? 'taken' : ''} ${selectedSlot === s.time ? 'selected' : ''}`}
                     onClick={() => !s.taken && setSelectedSlot(s.time)}
+                    disabled={s.taken}
                   >
                     {s.time}
-                    {s.taken && <i className="fa-solid fa-xmark slot-icon"></i>}
-                    {!s.taken && selectedSlot !== s.time && <i className="fa-solid fa-check slot-icon available-icon"></i>}
-                  </div>
+                  </button>
                 ))}
+              </div>
+              <div className="bk-slots-legend">
+                <span><span className="bk-legend-dot avail-dot"></span> Disponible</span>
+                <span><span className="bk-legend-dot taken-dot"></span> Occupé</span>
+                <span><span className="bk-legend-dot selected-dot"></span> Sélectionné</span>
               </div>
             </div>
 
             {selectedSlot && (
-              <div className="selected-slot-info">
+              <div className="bk-date-banner">
                 <i className="fa-solid fa-clock"></i>
-                <span>Créneau : <strong>{selectedSlot}</strong></span>
-                <span className="slot-duration">Durée estimée : {service?.duration}</span>
+                <span>Créneau : <strong>{selectedSlot}</strong> — Durée estimée : {service?.duration}</span>
               </div>
             )}
 
-            <div className="step-actions">
-              <button className="btn btn-secondary" onClick={() => goStep(2)}>
+            <div className="bk-actions">
+              <button className="bk-btn bk-btn-outline" onClick={() => goStep(2)}>
                 <i className="fa-solid fa-arrow-left"></i> Retour
               </button>
-              <button
-                className="btn btn-primary"
-                disabled={!selectedDate || !selectedSlot}
-                onClick={() => goStep(4)}
-              >
+              <button className="bk-btn bk-btn-primary" disabled={!selectedDate || !selectedSlot} onClick={() => goStep(4)}>
                 Continuer <i className="fa-solid fa-arrow-right"></i>
               </button>
             </div>
           </div>
         )}
 
-        {/* STEP 4: Confirmation */}
+        {/* ===== STEP 4: CONFIRMATION ===== */}
         {step === 4 && !completed && (
-          <div className="step-panel" key="step4">
-            <h2 className="step-title">
-              <i className="fa-solid fa-clipboard-check step-title-icon"></i>
-              Récapitulatif
-            </h2>
-            <p className="step-sub">Vérifiez les détails de votre réservation avant de payer.</p>
+          <div className="bk-panel" key="step4">
+            <div className="bk-panel-header">
+              <div className="bk-panel-icon"><i className="fa-solid fa-clipboard-check"></i></div>
+              <div>
+                <h2 className="bk-title">Récapitulatif</h2>
+                <p className="bk-sub">Vérifiez les détails de votre réservation avant de payer.</p>
+              </div>
+            </div>
 
-            <div className="recap-layout">
-              <div className="recap-main">
-                <div className="recap-card">
-                  <div className="recap-card-header">
-                    <i className="fa-solid fa-receipt"></i>
-                    <span>Détails de la réservation</span>
+            <div className="bk-recap-grid">
+              <div className="bk-recap-main">
+                <div className="bk-recap-card">
+                  <div className="bk-recap-row">
+                    <span className="bk-recap-label"><i className="fa-solid fa-bag-shopping"></i> Service</span>
+                    <span className="bk-recap-val">{service?.name || '—'}</span>
                   </div>
-                  <div className="recap-row">
-                    <div className="recap-label"><i className="fa-solid fa-bag-shopping"></i> Service</div>
-                    <div className="recap-value">{service?.name || '—'}</div>
+                  <div className="bk-recap-row">
+                    <span className="bk-recap-label"><i className="fa-solid fa-user"></i> Coiffeur</span>
+                    <span className="bk-recap-val">{coiffeur?.name || '—'}</span>
                   </div>
-                  <div className="recap-row">
-                    <div className="recap-label"><i className="fa-solid fa-user"></i> Coiffeur</div>
-                    <div className="recap-value">{coiffeur?.name || '—'}</div>
+                  <div className="bk-recap-row">
+                    <span className="bk-recap-label"><i className="fa-regular fa-calendar"></i> Date & Heure</span>
+                    <span className="bk-recap-val">{formatFullDate()} — {selectedSlot || '—'}</span>
                   </div>
-                  <div className="recap-row">
-                    <div className="recap-label"><i className="fa-regular fa-calendar"></i> Date & Heure</div>
-                    <div className="recap-value">{formatFullDate()} — {selectedSlot || '—'}</div>
+                  <div className="bk-recap-row">
+                    <span className="bk-recap-label"><i className="fa-regular fa-clock"></i> Durée</span>
+                    <span className="bk-recap-val">{service?.duration || '—'}</span>
                   </div>
-                  <div className="recap-row">
-                    <div className="recap-label"><i className="fa-regular fa-clock"></i> Durée</div>
-                    <div className="recap-value">{service?.duration || '—'}</div>
+                  <div className="bk-recap-row">
+                    <span className="bk-recap-label"><i className="fa-solid fa-location-dot"></i> Adresse</span>
+                    <span className="bk-recap-val">42 Rue de la Paix, 75002 Paris</span>
                   </div>
-                  <div className="recap-row">
-                    <div className="recap-label"><i className="fa-solid fa-location-dot"></i> Adresse</div>
-                    <div className="recap-value">42 Rue de la Paix, 75002 Paris</div>
-                  </div>
-                  <div className="recap-total">
-                    <span className="total-label">Total à payer</span>
-                    <div className="total-right">
-                      {promoApplied && <span className="total-discount">-{discount * 100}%</span>}
-                      <span className="total-amount">{totalPrice} €</span>
+                  <div className="bk-recap-total">
+                    <span>Total à payer</span>
+                    <div className="bk-recap-total-right">
+                      {promoApplied && <span className="bk-discount-tag">-{discount * 100}%</span>}
+                      <span className="bk-total-price">{totalPrice} €</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="loyalty-card">
-                  <div className="loyalty-icon"><i className="fa-solid fa-coins"></i></div>
-                  <div className="loyalty-info">
-                    <div className="loyalty-title">Points de fidélité</div>
-                    <div className="loyalty-desc">Vous gagnerez <strong>{loyaltyPoints} points</strong> avec cette réservation</div>
+                <div className="bk-loyalty">
+                  <i className="fa-solid fa-coins"></i>
+                  <div>
+                    <strong>Points de fidélité</strong>
+                    <p>Vous gagnerez <strong className="bk-orange">{loyaltyPoints} points</strong> avec cette réservation</p>
                   </div>
                 </div>
               </div>
 
-              <div className="recap-sidebar">
-                <div className="promo-card">
-                  <div className="promo-title"><i className="fa-solid fa-tag"></i> Code promo</div>
-                  <div className="promo-input-row">
+              <div className="bk-recap-side">
+                <div className="bk-promo">
+                  <h4><i className="fa-solid fa-tag"></i> Code promo</h4>
+                  <div className="bk-promo-row">
                     <input
-                      className="promo-input"
+                      className="bk-promo-input"
                       type="text"
-                      placeholder="Entrez votre code"
+                      placeholder="Votre code"
                       value={promoCode}
                       onChange={e => setPromoCode(e.target.value)}
                       disabled={promoApplied}
                     />
-                    <button
-                      className="promo-btn"
-                      onClick={handlePromo}
-                      disabled={promoApplied || !promoCode}
-                    >
+                    <button className="bk-promo-btn" onClick={handlePromo} disabled={promoApplied || !promoCode}>
                       {promoApplied ? <i className="fa-solid fa-check"></i> : 'Appliquer'}
                     </button>
                   </div>
                   {promoApplied && (
-                    <div className="promo-success">
-                      <i className="fa-solid fa-circle-check"></i> Code BOOKEASE10 appliqué (-10%)
+                    <div className="bk-promo-ok">
+                      <i className="fa-solid fa-circle-check"></i> BOOKEASE10 appliqué (-10%)
                     </div>
                   )}
                 </div>
 
-                <div className="info-card">
-                  <div className="info-card-title"><i className="fa-solid fa-circle-info"></i> Informations</div>
-                  <ul className="info-list">
+                <div className="bk-info-box">
+                  <h4><i className="fa-solid fa-shield-halved"></i> Informations</h4>
+                  <ul>
                     <li><i className="fa-solid fa-check"></i> Annulation gratuite 24h avant</li>
                     <li><i className="fa-solid fa-check"></i> Paiement sécurisé Stripe</li>
                     <li><i className="fa-solid fa-check"></i> Email de confirmation immédiat</li>
@@ -595,79 +538,42 @@ export default function Stepper() {
               </div>
             </div>
 
-            <h3 className="form-section-title">
-              <i className="fa-solid fa-pen-to-square"></i> Vos informations
-            </h3>
-            <div className="form-grid">
-              <div className="form-group">
-                <label className="form-label">Nom complet *</label>
-                <input
-                  className={`form-input ${formErrors.name ? 'error' : ''}`}
-                  type="text"
-                  placeholder="Jean Dupont"
-                  value={form.name}
-                  onChange={e => handleForm('name', e.target.value)}
-                />
-                {formErrors.name && <span className="form-error">{formErrors.name}</span>}
+            <div className="bk-form-section">
+              <h3 className="bk-form-title"><i className="fa-solid fa-pen-to-square"></i> Vos informations</h3>
+              <div className="bk-form-grid">
+                <div className="bk-field">
+                  <label>Nom complet *</label>
+                  <input className={formErrors.name ? 'error' : ''} type="text" placeholder="Jean Dupont" value={form.name} onChange={e => handleForm('name', e.target.value)} />
+                  {formErrors.name && <span className="bk-field-error">{formErrors.name}</span>}
+                </div>
+                <div className="bk-field">
+                  <label>Téléphone *</label>
+                  <input className={formErrors.phone ? 'error' : ''} type="tel" placeholder="06 12 34 56 78" value={form.phone} onChange={e => handleForm('phone', e.target.value)} />
+                  {formErrors.phone && <span className="bk-field-error">{formErrors.phone}</span>}
+                </div>
               </div>
-              <div className="form-group">
-                <label className="form-label">Téléphone *</label>
-                <input
-                  className={`form-input ${formErrors.phone ? 'error' : ''}`}
-                  type="tel"
-                  placeholder="06 12 34 56 78"
-                  value={form.phone}
-                  onChange={e => handleForm('phone', e.target.value)}
-                />
-                {formErrors.phone && <span className="form-error">{formErrors.phone}</span>}
+              <div className="bk-field">
+                <label>Email *</label>
+                <input className={formErrors.email ? 'error' : ''} type="email" placeholder="jean@exemple.fr" value={form.email} onChange={e => handleForm('email', e.target.value)} />
+                {formErrors.email && <span className="bk-field-error">{formErrors.email}</span>}
               </div>
-            </div>
-            <div className="form-group">
-              <label className="form-label">Email *</label>
-              <input
-                className={`form-input ${formErrors.email ? 'error' : ''}`}
-                type="email"
-                placeholder="jean@exemple.fr"
-                value={form.email}
-                onChange={e => handleForm('email', e.target.value)}
-              />
-              {formErrors.email && <span className="form-error">{formErrors.email}</span>}
-            </div>
-            <div className="form-group">
-              <label className="form-label">Notes (optionnel)</label>
-              <textarea
-                className="form-input form-textarea"
-                placeholder="Demandes spéciales, allergies, etc."
-                rows={3}
-                value={form.notes}
-                onChange={e => handleForm('notes', e.target.value)}
-              />
+              <div className="bk-field">
+                <label>Notes (optionnel)</label>
+                <textarea placeholder="Demandes spéciales, allergies, etc." rows={3} value={form.notes} onChange={e => handleForm('notes', e.target.value)} />
+              </div>
             </div>
 
-            <button
-              className="btn-stripe"
-              disabled={paying}
-              onClick={handlePay}
-            >
+            <button className="bk-pay-btn" disabled={paying} onClick={handlePay}>
               {paying ? (
-                <>
-                  <i className="fa-solid fa-spinner fa-spin"></i>
-                  Traitement en cours...
-                </>
+                <><i className="fa-solid fa-spinner fa-spin"></i> Traitement en cours...</>
               ) : (
-                <>
-                  <i className="fa-brands fa-stripe"></i>
-                  Payer avec Stripe — {totalPrice} €
-                </>
+                <><i className="fa-brands fa-stripe"></i> Payer avec Stripe — {totalPrice} €</>
               )}
             </button>
-            <div className="stripe-badge">
-              <i className="fa-solid fa-lock"></i>
-              Paiement sécurisé par Stripe
-            </div>
+            <p className="bk-pay-secure"><i className="fa-solid fa-lock"></i> Paiement sécurisé par Stripe</p>
 
-            <div className="step-actions" style={{ marginTop: 20 }}>
-              <button className="btn btn-secondary" onClick={() => goStep(3)}>
+            <div className="bk-actions" style={{ marginTop: 16 }}>
+              <button className="bk-btn bk-btn-outline" onClick={() => goStep(3)}>
                 <i className="fa-solid fa-arrow-left"></i> Retour
               </button>
               <div></div>
@@ -675,93 +581,83 @@ export default function Stepper() {
           </div>
         )}
 
-        {/* COMPLETED */}
+        {/* ===== COMPLETED ===== */}
         {completed && (
-          <div className="step-panel completed-panel">
-            <div className="completed-icon">
+          <div className="bk-panel bk-completed">
+            <div className="bk-done-icon">
               <i className="fa-solid fa-circle-check"></i>
             </div>
-            <h2 className="step-title" style={{ justifyContent: 'center' }}>
-              Réservation confirmée !
-            </h2>
-            <p className="step-sub" style={{ textAlign: 'center', maxWidth: 420, margin: '0 auto 28px' }}>
+            <h2 className="bk-title bk-title-center">Réservation confirmée !</h2>
+            <p className="bk-sub bk-sub-center">
               Un email de confirmation a été envoyé à <strong>{form.email}</strong>.
               Vous recevrez un rappel 24h avant votre rendez-vous.
             </p>
 
-            <div className="completed-timeline">
-              <div className="timeline-item active">
-                <div className="timeline-dot"></div>
-                <div className="timeline-content">
-                  <div className="timeline-title">Réservation confirmée</div>
-                  <div className="timeline-desc">Paiement reçu</div>
+            <div className="bk-timeline">
+              <div className="bk-tl-item active">
+                <div className="bk-tl-dot"></div>
+                <div className="bk-tl-content">
+                  <strong>Réservation confirmée</strong>
+                  <span>Paiement reçu</span>
                 </div>
               </div>
-              <div className="timeline-item">
-                <div className="timeline-dot"></div>
-                <div className="timeline-content">
-                  <div className="timeline-title">Email envoyé</div>
-                  <div className="timeline-desc">Confirmation à {form.email}</div>
+              <div className="bk-tl-item">
+                <div className="bk-tl-dot"></div>
+                <div className="bk-tl-content">
+                  <strong>Email envoyé</strong>
+                  <span>Confirmation à {form.email}</span>
                 </div>
               </div>
-              <div className="timeline-item">
-                <div className="timeline-dot"></div>
-                <div className="timeline-content">
-                  <div className="timeline-title">Rappel SMS</div>
-                  <div className="timeline-desc">24h avant le rendez-vous</div>
+              <div className="bk-tl-item">
+                <div className="bk-tl-dot"></div>
+                <div className="bk-tl-content">
+                  <strong>Rappel SMS</strong>
+                  <span>24h avant le rendez-vous</span>
                 </div>
               </div>
-              <div className="timeline-item">
-                <div className="timeline-dot"></div>
-                <div className="timeline-content">
-                  <div className="timeline-title">Votre visite</div>
-                  <div className="timeline-desc">{formatFullDate()} — {selectedSlot}</div>
+              <div className="bk-tl-item">
+                <div className="bk-tl-dot"></div>
+                <div className="bk-tl-content">
+                  <strong>Votre visite</strong>
+                  <span>{formatFullDate()} — {selectedSlot}</span>
                 </div>
               </div>
             </div>
 
-            <div className="recap-card" style={{ marginBottom: 28 }}>
-              <div className="recap-card-header">
-                <i className="fa-solid fa-receipt"></i>
-                <span>Récapitulatif</span>
+            <div className="bk-recap-card" style={{ marginBottom: 24, textAlign: 'left' }}>
+              <div className="bk-recap-row">
+                <span className="bk-recap-label"><i className="fa-solid fa-bag-shopping"></i> Service</span>
+                <span className="bk-recap-val">{service?.name}</span>
               </div>
-              <div className="recap-row">
-                <div className="recap-label"><i className="fa-solid fa-bag-shopping"></i> Service</div>
-                <div className="recap-value">{service?.name}</div>
+              <div className="bk-recap-row">
+                <span className="bk-recap-label"><i className="fa-solid fa-user"></i> Coiffeur</span>
+                <span className="bk-recap-val">{coiffeur?.name}</span>
               </div>
-              <div className="recap-row">
-                <div className="recap-label"><i className="fa-solid fa-user"></i> Coiffeur</div>
-                <div className="recap-value">{coiffeur?.name}</div>
+              <div className="bk-recap-row">
+                <span className="bk-recap-label"><i className="fa-regular fa-calendar"></i> Date & Heure</span>
+                <span className="bk-recap-val">{formatFullDate()} — {selectedSlot}</span>
               </div>
-              <div className="recap-row">
-                <div className="recap-label"><i className="fa-regular fa-calendar"></i> Date & Heure</div>
-                <div className="recap-value">{formatFullDate()} — {selectedSlot}</div>
-              </div>
-              <div className="recap-row">
-                <div className="recap-label"><i className="fa-solid fa-location-dot"></i> Adresse</div>
-                <div className="recap-value">42 Rue de la Paix, 75002 Paris</div>
-              </div>
-              <div className="recap-row">
-                <div className="recap-label"><i className="fa-solid fa-receipt"></i> Référence</div>
-                <div className="recap-value" style={{ fontFamily: 'monospace', color: 'var(--primary)' }}>
+              <div className="bk-recap-row">
+                <span className="bk-recap-label"><i className="fa-solid fa-receipt"></i> Référence</span>
+                <span className="bk-recap-val bk-mono bk-orange">
                   #BK-{calYear}-{String(calMonth+1).padStart(2,'0')}{String(selectedDate).padStart(2,'0')}-{selectedSlot?.replace(':','')}
-                </div>
+                </span>
               </div>
-              <div className="recap-total">
-                <span className="total-label">Montant payé</span>
-                <span className="total-amount">{totalPrice} €</span>
+              <div className="bk-recap-total">
+                <span>Montant payé</span>
+                <span className="bk-total-price">{totalPrice} €</span>
               </div>
             </div>
 
-            <div className="completed-actions">
-              <button className="btn btn-primary" onClick={handleNewReservation}>
+            <div className="bk-done-actions">
+              <button className="bk-btn bk-btn-primary" onClick={handleNewReservation}>
                 <i className="fa-solid fa-plus"></i> Nouvelle réservation
               </button>
-              <button className="btn btn-secondary" onClick={() => showToast('Lien de partage copié !', 'success')}>
+              <button className="bk-btn bk-btn-outline" onClick={() => showToast('Lien de partage copié !', 'success')}>
                 <i className="fa-solid fa-share-nodes"></i> Partager
               </button>
-              <button className="btn btn-secondary" onClick={() => showToast('Ajouté au calendrier !', 'success')}>
-                <i className="fa-solid fa-calendar-plus"></i> Ajouter au calendrier
+              <button className="bk-btn bk-btn-outline" onClick={() => showToast('Ajouté au calendrier !', 'success')}>
+                <i className="fa-solid fa-calendar-plus"></i> Calendrier
               </button>
             </div>
           </div>
