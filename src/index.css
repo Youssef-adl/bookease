@@ -1,0 +1,213 @@
+:root {
+  --primary: #E85D04;
+  --primary-dark: #DC2626;
+  --primary-deep: #B91C1C;
+  --primary-light: #FB923C;
+  --cream: #F5E6C8;
+  --cream-dark: #E8D5A8;
+  --cream-light: #FAF3E4;
+  --gold: #D4A843;
+  --gold-light: #E8C840;
+  --bg: #F5E6C8;
+  --surface: #FFFEF8;
+  --surface-warm: #FAF3E4;
+  --ink: #1A1A1A;
+  --ink-soft: #2D2D2D;
+  --gray-100: #E8E4DC;
+  --gray-200: #D4CFC4;
+  --gray-300: #B8B2A6;
+  --gray-400: #8A8478;
+  --gray-500: #6B6660;
+  --green: #16A34A;
+  --green-light: #DCFCE7;
+  --green-dark: #15803D;
+  --red: #DC2626;
+  --red-light: #FEE2E2;
+  --red-bright: #FF2D2D;
+  --amber: #D97706;
+  --amber-light: #FEF3C7;
+  --radius: 6px;
+  --radius-sm: 4px;
+  --radius-lg: 10px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.06);
+  --shadow: 0 2px 6px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+  --shadow-xl: 0 16px 48px rgba(0,0,0,0.15);
+  --shadow-cut: 3px 3px 0 var(--ink);
+  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --font-display: 'Playfair Display', serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-script: 'Caveat', cursive;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.5;
+  position: relative;
+}
+
+/* PAPER TEXTURE OVERLAY */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+input { font-family: inherit; }
+img { max-width: 100%; display: block; }
+
+::selection {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* ========== COLLAGE / CUT-OUT UTILITIES ========== */
+
+/* Star decoration — scattered golden stars */
+.star-deco {
+  position: absolute;
+  color: var(--gold-light);
+  font-size: 1.2rem;
+  pointer-events: none;
+  z-index: 2;
+  filter: drop-shadow(1px 1px 0 rgba(0,0,0,0.15));
+}
+
+.star-deco::before {
+  content: '\f005';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+}
+
+.star-deco.sm { font-size: 0.7rem; }
+.star-deco.lg { font-size: 1.8rem; }
+.star-deco.xl { font-size: 2.4rem; }
+
+/* Giant background text decoration */
+.bg-text {
+  position: absolute;
+  font-family: var(--font-display);
+  font-weight: 900;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.06;
+  line-height: 0.85;
+}
+
+/* Cut-out photo style — bright colored border, offset shadow */
+.cutout {
+  border: 3px solid var(--gold-light);
+  box-shadow: var(--shadow-cut);
+  position: relative;
+}
+
+.cutout.primary-border {
+  border-color: var(--primary);
+}
+
+.cutout.red-border {
+  border-color: var(--red);
+}
+
+.cutout.ink-border {
+  border-color: var(--ink);
+}
+
+/* Sticker / badge — rotated, bold, colored background */
+.sticker {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--gold-light);
+  color: var(--ink);
+  padding: 5px 14px;
+  font-weight: 800;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transform: rotate(-2deg);
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+  border: 2px solid var(--ink);
+  position: relative;
+  z-index: 3;
+}
+
+.sticker.red {
+  background: var(--red);
+  color: #fff;
+  border-color: var(--red);
+}
+
+.sticker.primary {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary-dark);
+}
+
+.sticker.outline {
+  background: transparent;
+  border: 2px solid var(--ink);
+}
+
+.sticker.no-rotate {
+  transform: none;
+}
+
+.sticker.lg {
+  padding: 8px 20px;
+  font-size: 0.85rem;
+}
+
+/* Handwritten / script text */
+.script {
+  font-family: var(--font-script);
+  font-weight: 700;
+}
+
+/* Diagonal stripe background */
+.stripes {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 6px,
+    rgba(232, 93, 4, 0.06) 6px,
+    rgba(232, 93, 4, 0.06) 12px
+  );
+}
+
+/* Overlapping element container */
+.overlap {
+  position: relative;
+}
+
+.overlap > *:first-child {
+  position: relative;
+  z-index: 2;
+}
+
+.overlap > *:last-child {
+  position: relative;
+  z-index: 1;
+  margin-top: -20px;
+}
