@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './Landing.css'
 
@@ -46,9 +46,136 @@ const SCHEDULE = [
   { day: 'Dimanche', hours: 'Fermé' },
 ]
 
+const SALONS = [
+  {
+    id: 1,
+    name: 'BookEase Opéra',
+    address: '42 Rue de la Paix, 75002 Paris',
+    coords: { lat: 48.8698, lng: 2.3303 },
+    status: 'habité',
+    coiffeurs: ['Sarah Benali', 'Thomas Moreau', 'Léa Dubois', 'Karim Hadj'],
+    phone: '01 42 00 00 00',
+    image: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&h=300&fit=crop'
+  },
+  {
+    id: 2,
+    name: 'BookEase Bastille (Non Habité)',
+    address: '12 Rue de Lappe, 75011 Paris',
+    coords: { lat: 48.8529, lng: 2.3732 },
+    status: 'non habité',
+    coiffeurs: [],
+    phone: '01 45 00 00 01',
+    image: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&h=300&fit=crop'
+  },
+  {
+    id: 3,
+    name: 'BookEase Saint-Germain',
+    address: '26 Rue du Four, 75006 Paris',
+    coords: { lat: 48.8525, lng: 2.3331 },
+    status: 'habité',
+    coiffeurs: ['Sarah Benali', 'Thomas Moreau'],
+    phone: '01 43 00 00 02',
+    image: 'https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=400&h=300&fit=crop'
+  },
+  {
+    id: 4,
+    name: 'BookEase Montmartre',
+    address: '85 Rue Lepic, 75018 Paris',
+    coords: { lat: 48.8872, lng: 2.3353 },
+    status: 'habité',
+    coiffeurs: ['Léa Dubois', 'Karim Hadj'],
+    phone: '01 48 00 00 03',
+    image: 'https://images.unsplash.com/photo-1562322140-8baeececf3df?w=400&h=300&fit=crop'
+  },
+  {
+    id: 5,
+    name: 'BookEase Rabat Souissi',
+    address: '54 Avenue Mehdi Ben Barka, Rabat Souissi',
+    coords: { lat: 33.9782, lng: -6.8285 },
+    status: 'habité',
+    coiffeurs: ['Karim Hadj'],
+    phone: '+212 537 00 00 00',
+    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop'
+  }
+]
+
 export default function Landing() {
   const navigate = useNavigate()
   const [openFaq, setOpenFaq] = useState(null)
+
+  const [userLocation, setUserLocation] = useState(null)
+  const [loadingLocation, setLoadingLocation] = useState(false)
+  const [locationError, setLocationError] = useState(null)
+  const [simulatedName, setSimulatedName] = useState('')
+
+  const detectLocation = () => {
+    setLoadingLocation(true)
+    setLocationError(null)
+    if (!navigator.geolocation) {
+      setLocationError("Géolocalisation non supportée par votre navigateur.")
+      setLoadingLocation(false)
+      setUserLocation({ lat: 48.8606, lng: 2.3376 })
+      setSimulatedName('Paris Centre (défaut)')
+      return
+    }
+    
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setUserLocation({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        })
+        setSimulatedName('Ma position réelle')
+        setLoadingLocation(false)
+      },
+      (error) => {
+        let msg = "Accès à la position refusé."
+        if (error.code === error.TIMEOUT) msg = "Délai d'attente dépassé."
+        setLocationError(`${msg} Utilisation d'une position par défaut.`)
+        setUserLocation({ lat: 48.8606, lng: 2.3376 }) // Default to Paris Centre
+        setSimulatedName('Paris Centre (défaut)')
+        setLoadingLocation(false)
+      },
+      { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+    )
+  }
+
+  useEffect(() => {
+    detectLocation()
+  }, [])
+
+  const getDistance = (lat1, lon1, lat2, lon2) => {
+    const R = 6371
+    const dLat = ((lat2 - lat1) * Math.PI) / 180
+    const dLon = ((lon2 - lon1) * Math.PI) / 180
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos((lat1 * Math.PI) / 180) *
+        Math.cos((lat2 * Math.PI) / 180) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2)
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+    return R * c
+  }
+
+  const activeSalons = useMemo(() => SALONS.filter(s => s.status === 'habité'), [])
+
+  const salonsWithDistance = useMemo(() => {
+    if (!userLocation) return []
+    return activeSalons
+      .map(salon => {
+        const distance = getDistance(
+          userLocation.lat,
+          userLocation.lng,
+          salon.coords.lat,
+          salon.coords.lng
+        )
+        return { ...salon, distance }
+      })
+      .sort((a, b) => a.distance - b.distance)
+  }, [userLocation, activeSalons])
+
+  const nearestSalon = salonsWithDistance[0]
 
   const toggleFaq = (i) => {
     setOpenFaq(openFaq === i ? null : i)
@@ -112,6 +239,93 @@ export default function Landing() {
             {/* Handwritten annotation */}
             <div className="hand-note hero-hand-note">
               <span className="hand-arrow"><i className="fa-solid fa-arrow-right"></i></span> c'est gratuit !
+            </div>
+
+            {/* Nearest Salon Section */}
+            <div className="newspaper-block nearest-salon-block">
+              <h3 className="nearest-salon-title">
+                <span className="nearest-salon-icon">📍</span> LE SALON LE PLUS PROCHE :
+              </h3>
+              
+              {loadingLocation ? (
+                <div className="nearest-salon-loading">
+                  <span className="loading-spinner"><i className="fa-solid fa-spinner fa-spin"></i></span>
+                  <span className="loading-text">Recherche du salon le plus proche...</span>
+                </div>
+              ) : nearestSalon ? (
+                <div className="nearest-salon-card">
+                  <div className="nearest-salon-name-wrap">
+                    <h4 className="nearest-salon-name">{nearestSalon.name}</h4>
+                    <span className="nearest-salon-status"><i className="fa-solid fa-users"></i> habité</span>
+                  </div>
+                  
+                  <div className="nearest-salon-distance">
+                    <i className="fa-solid fa-route"></i> à <strong>{nearestSalon.distance.toFixed(1)} km</strong> de votre position ({simulatedName})
+                  </div>
+                  
+                  <p className="nearest-salon-address"><i className="fa-solid fa-location-dot"></i> {nearestSalon.address}</p>
+                  <p className="nearest-salon-phone"><i className="fa-solid fa-phone"></i> {nearestSalon.phone}</p>
+                  <p className="nearest-salon-staff"><i className="fa-solid fa-scissors"></i> Coiffeurs : {nearestSalon.coiffeurs.join(', ')}</p>
+                  
+                  <button 
+                    className="btn-newspaper btn-salon-booking" 
+                    onClick={() => navigate('/booking', { state: { salonId: nearestSalon.id } })}
+                  >
+                    Réserver dans ce salon
+                  </button>
+                </div>
+              ) : (
+                <div className="nearest-salon-error">
+                  <i className="fa-solid fa-circle-exclamation"></i>
+                  <span>Aucun salon actif trouvé à proximité.</span>
+                </div>
+              )}
+
+              {/* Simulation panel */}
+              <div className="salon-simulator">
+                <span className="simulator-label">Simuler une autre position :</span>
+                <div className="simulator-buttons">
+                  <button 
+                    className={`sim-btn ${simulatedName === 'Ma position réelle' ? 'active' : ''}`}
+                    onClick={detectLocation}
+                    disabled={loadingLocation}
+                  >
+                    📡 Réelle
+                  </button>
+                  <button 
+                    className={`sim-btn ${simulatedName === 'Opéra' ? 'active' : ''}`}
+                    onClick={() => {
+                      setUserLocation({ lat: 48.8698, lng: 2.3303 })
+                      setSimulatedName('Opéra')
+                    }}
+                  >
+                    🗼 Opéra
+                  </button>
+                  <button 
+                    className={`sim-btn ${simulatedName === 'Rabat Souissi' ? 'active' : ''}`}
+                    onClick={() => {
+                      setUserLocation({ lat: 33.9782, lng: -6.8285 })
+                      setSimulatedName('Rabat Souissi')
+                    }}
+                  >
+                    🇲🇦 Rabat
+                  </button>
+                  <button 
+                    className={`sim-btn ${simulatedName === 'St-Germain' ? 'active' : ''}`}
+                    onClick={() => {
+                      setUserLocation({ lat: 48.8525, lng: 2.3331 })
+                      setSimulatedName('St-Germain')
+                    }}
+                  >
+                    🍷 St-Germain
+                  </button>
+                </div>
+                {locationError && (
+                  <p className="simulator-error-msg">
+                    <i className="fa-solid fa-triangle-exclamation"></i> {locationError}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
 
