@@ -59,79 +59,142 @@ export default function Landing() {
 
   return (
     <div className="landing">
-      {/* HERO */}
+      {/* HERO — Newspaper / Paper Style */}
       <section className="hero">
-        <div className="hero-bg">
-          <div className="hero-circle c1"></div>
-          <div className="hero-circle c2"></div>
-          <div className="hero-circle c3"></div>
+        {/* Paper texture background */}
+        <div className="hero-paper-bg"></div>
+        
+        {/* Torn paper edge top */}
+        <div className="torn-edge-top"></div>
+
+        {/* Newspaper masthead */}
+        <div className="hero-masthead">
+          <div className="masthead-date">Paris, le {new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
+          <div className="masthead-line"></div>
+          <div className="masthead-title">LE BOOKEASE</div>
+          <div className="masthead-subtitle">Journal du salon de coiffure</div>
+          <div className="masthead-line"></div>
         </div>
-        <div className="hero-content">
-          <span className="hero-badge">
-            <i className="fa-solid fa-scissors"></i> Salon de coiffure
-          </span>
-          <h1 className="hero-title">
-            Votre salon,<br />
-            <span className="script" style={{ color: 'var(--primary)', fontSize: '1.1em' }}>réservé en un clic.</span>
-          </h1>
-          <p className="hero-sub">
-            BookEase simplifie la gestion de vos rendez-vous. Réservez, gérez et payez en ligne — tout est pensé pour vous.
-          </p>
-          <div className="hero-actions">
-            <button className="btn btn-primary btn-lg" onClick={() => navigate('/booking')}>
-              <i className="fa-solid fa-calendar-plus"></i> Réserver maintenant
-            </button>
-            <button className="btn btn-secondary btn-lg" onClick={() => navigate('/dashboard')}>
-              <i className="fa-solid fa-chart-line"></i> Voir le dashboard
-            </button>
-          </div>
-          <div className="hero-stats">
-            <div className="hero-stat">
-              <div className="hero-stat-num">2,400+</div>
-              <div className="hero-stat-label">Clients satisfaits</div>
+
+        {/* Hero main content — 3 column newspaper layout */}
+        <div className="hero-newspaper">
+          
+          {/* Left column — Main headline */}
+          <div className="hero-col-left">
+            <div className="newspaper-block headline-block">
+              <h1 className="hero-headline">
+                Votre salon
+                <span className="headline-highlight">réservé</span>
+                en un clic.
+              </h1>
+              <div className="headline-underline"></div>
             </div>
-            <div className="hero-stat-divider"></div>
-            <div className="hero-stat">
-              <div className="hero-stat-num">15,000+</div>
-              <div className="hero-stat-label">Rendez-vous gérés</div>
+
+            <div className="newspaper-block">
+              <p className="hero-lead">
+                BookEase simplifie la gestion de vos rendez-vous. 
+                <span className="text-highlight">Réservez, gérez et payez en ligne</span> — 
+                tout est pensé pour vous.
+              </p>
             </div>
-            <div className="hero-stat-divider"></div>
-            <div className="hero-stat">
-              <div className="hero-stat-num">4.9/5</div>
-              <div className="hero-stat-label">Note moyenne</div>
+
+            <div className="newspaper-block actions-block">
+              <div className="tape-strip tape-tilted-left">
+                <button className="btn-newspaper btn-primary-news" onClick={() => navigate('/booking')}>
+                  <i className="fa-solid fa-calendar-plus"></i> Réserver maintenant
+                </button>
+              </div>
+              <button className="btn-newspaper btn-outline-news" onClick={() => navigate('/dashboard')}>
+                <i className="fa-solid fa-chart-line"></i> Dashboard
+              </button>
             </div>
-          </div>
-        </div>
-        <div className="hero-visual">
-          <div className="hero-phone">
-            <div className="phone-notch"></div>
-            <div className="phone-screen">
-              <div className="phone-header">
-                <i className="fa-solid fa-scissors"></i>
-                <span>BookEase</span>
-              </div>
-              <div className="phone-card">
-                <div className="phone-card-title">Prochain RDV</div>
-                <div className="phone-card-service">Coupe + Brushing</div>
-                <div className="phone-card-date">Sam. 28 Juin — 11:00</div>
-                <div className="phone-card-barber">
-                  <div className="phone-avatar"></div>
-                  Sarah Benali
-                </div>
-              </div>
-              <div className="phone-card small">
-                <div className="phone-card-row">
-                  <i className="fa-solid fa-location-dot"></i>
-                  <span>42 Rue de la Paix</span>
-                </div>
-                <div className="phone-card-row">
-                  <i className="fa-solid fa-euro-sign"></i>
-                  <span>38 €</span>
-                </div>
-              </div>
+
+            {/* Handwritten annotation */}
+            <div className="hand-note hero-hand-note">
+              <span className="hand-arrow"><i className="fa-solid fa-arrow-right"></i></span> c'est gratuit !
             </div>
           </div>
+
+          {/* Center column — Phone mockup */}
+          <div className="hero-col-center">
+            <div className="phone-newspaper">
+              <div className="tape-top"></div>
+              <div className="phone-frame">
+                <div className="phone-notch"></div>
+                <div className="phone-screen">
+                  <div className="phone-header">
+                    <i className="fa-solid fa-scissors"></i>
+                    <span>BookEase</span>
+                  </div>
+                  <div className="phone-card">
+                    <div className="phone-card-title">Prochain RDV</div>
+                    <div className="phone-card-service">Coupe + Brushing</div>
+                    <div className="phone-card-date">Sam. 28 Juin — 11:00</div>
+                    <div className="phone-card-barber">
+                      <div className="phone-avatar"></div>
+                      Sarah Benali
+                    </div>
+                  </div>
+                  <div className="phone-card small">
+                    <div className="phone-card-row">
+                      <i className="fa-solid fa-location-dot"></i>
+                      <span>42 Rue de la Paix</span>
+                    </div>
+                    <div className="phone-card-row">
+                      <i className="fa-solid fa-euro-sign"></i>
+                      <span>38 €</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* Sticky note on phone */}
+              <div className="sticky-note-phone">
+                <span className="sticky-text">facile, non ?</span>
+                <div className="sticky-tape"></div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right column — Stats & extras */}
+          <div className="hero-col-right">
+            <div className="newspaper-block stats-block">
+              <div className="stats-headline">EN CHIFFRES</div>
+              <div className="stat-item">
+                <div className="stat-number">2,400+</div>
+                <div className="stat-label">Clients satisfaits</div>
+              </div>
+              <div className="stat-divider"></div>
+              <div className="stat-item">
+                <div className="stat-number">15,000+</div>
+                <div className="stat-label">RDV gérés</div>
+              </div>
+              <div className="stat-divider"></div>
+              <div className="stat-item">
+                <div className="stat-number">4.9/5</div>
+                <div className="stat-label">Note moyenne</div>
+              </div>
+            </div>
+
+            <div className="newspaper-block quote-block">
+              <div className="quote-mark">"</div>
+              <p className="quote-text">Super pratique ! J'ai réservé en 30 secondes.</p>
+              <div className="quote-author">— Camille M.</div>
+            </div>
+
+            {/* Yellow highlight badge */}
+            <div className="highlight-badge">
+              <span><i className="fa-solid fa-star"></i> Top salon Paris</span>
+            </div>
+          </div>
         </div>
+
+        {/* Bottom handwritten strip */}
+        <div className="hero-bottom-strip">
+          <span className="strip-text">✦ ouvert du lundi au samedi ✦ 42 rue de la paix, paris ✦</span>
+        </div>
+
+        {/* Torn paper edge bottom */}
+        <div className="torn-edge-bottom"></div>
       </section>
 
       {/* ABOUT */}
@@ -140,8 +203,8 @@ export default function Landing() {
           <div className="about-text">
             <span className="section-tag">À propos</span>
             <h2 className="section-title" style={{ textAlign: 'left' }}>
-              Un salon d'exception<br />
-              <span className="script" style={{ color: 'var(--primary)' }}>depuis 2015.</span>
+              UN SALON<br />
+              <span className="accent">d'exception depuis 2015.</span>
             </h2>
             <p className="about-desc">
               Situé au cœur de Paris, le salon BookEase est un espace dédié à votre beauté et à votre bien-être.
@@ -182,242 +245,636 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* SERVICES */}
+      {/* SERVICES — Notebook / Checklist Style */}
       <section className="services-section">
-        <div className="section-header">
-          <span className="section-tag">Nos Services</span>
-          <h2 className="section-title">
-            Des soins adaptés<br />
-            <span className="script" style={{ color: 'var(--primary)' }}>à chaque besoin.</span>
-          </h2>
-          <p className="section-sub">Découvrez notre gamme complète de services de coiffure professionnelle.</p>
+        {/* Paper texture */}
+        <div className="services-paper-bg"></div>
+
+        {/* Notebook holes on left */}
+        <div className="notebook-holes">
+          <div className="hole"></div>
+          <div className="hole"></div>
+          <div className="hole"></div>
+          <div className="hole"></div>
+          <div className="hole"></div>
         </div>
-        <div className="services-grid">
-          {SERVICES.map((s, i) => (
-            <div key={i} className="service-card">
-              <div className="service-icon">
-                <i className={s.icon}></i>
-              </div>
-              <h3 className="service-name">{s.name}</h3>
-              <p className="service-desc">{s.desc}</p>
-              <div className="service-footer">
-                <span className="service-duration">
-                  <i className="fa-regular fa-clock"></i> {s.duration}
-                </span>
-                <span className="service-price">{s.price} €</span>
-              </div>
+
+        {/* Red margin line */}
+        <div className="margin-line"></div>
+
+        <div className="services-content">
+          {/* Header */}
+          <div className="services-header">
+            <div className="services-title-area">
+                <span className="notebook-tab"><i className="fa-solid fa-scissors"></i> MENU</span>
+              <h2 className="services-title">
+                Nos Services
+              </h2>
+              <p className="services-subtitle">
+                Des soins adaptés <span className="hand-underline-css">à chaque besoin.</span>
+              </p>
             </div>
-          ))}
+            {/* Handwritten note top right */}
+            <div className="services-note">
+              <span className="note-pin">📌</span>
+              <span className="note-text">réservez maintenant !</span>
+            </div>
+          </div>
+
+          {/* Services as notebook list */}
+          <div className="services-list">
+            {SERVICES.map((s, i) => (
+              <div key={i} className="service-row">
+                <div className="service-row-left">
+                  <div className="service-check">
+                    <span className="check-mark">✓</span>
+                  </div>
+                  <div className="service-row-icon">
+                    <i className={s.icon}></i>
+                  </div>
+                </div>
+                <div className="service-row-center">
+                  <div className="service-row-header">
+                    <h3 className="service-row-name">{s.name}</h3>
+                    {i === 1 && <span className="popular-tag"><i className="fa-solid fa-fire"></i> populaire</span>}
+                    {i === 2 && <span className="new-tag">nouveau</span>}
+                  </div>
+                  <p className="service-row-desc">{s.desc}</p>
+                </div>
+                <div className="service-row-right">
+                  <span className="service-row-duration">
+                    <i className="fa-regular fa-clock"></i> {s.duration}
+                  </span>
+                  <span className="service-row-price">{s.price} €</span>
+                </div>
+                {/* Doodle underline */}
+                <div className="service-doodle-line"></div>
+              </div>
+            ))}
+          </div>
+
+          {/* Bottom note */}
+          <div className="services-footer-note">
+            <span className="footer-arrow">↓</span>
+            <span className="footer-text">tous nos prix sont nets, sans surprise</span>
+            <span className="footer-check">✓</span>
+          </div>
+        </div>
+
+        {/* Coffee stain decoration */}
+        <div className="coffee-stain-deco"></div>
+
+        {/* Scattered doodles */}
+        <span className="doodle-star" style={{ top: '15%', right: '8%', transform: 'rotate(15deg)' }}>✦</span>
+        <span className="doodle-star" style={{ bottom: '20%', left: '5%', transform: 'rotate(-10deg)' }}>✧</span>
+      </section>
+
+      {/* TEAM — Polaroid / Scrapbook Style */}
+      <section className="team-section">
+        {/* Cork board texture */}
+        <div className="cork-bg"></div>
+
+        {/* Push pins decoration */}
+        <div className="push-pin" style={{ top: '60px', left: '15%' }}></div>
+        <div className="push-pin" style={{ top: '80px', right: '20%' }}></div>
+        <div className="push-pin" style={{ bottom: '100px', left: '25%' }}></div>
+
+        {/* String lights */}
+        <div className="string-lights">
+          <div className="light-bulb"></div>
+          <div className="light-bulb"></div>
+          <div className="light-bulb"></div>
+          <div className="light-bulb"></div>
+          <div className="light-bulb"></div>
+        </div>
+
+        <div className="team-content">
+          {/* Header */}
+          <div className="team-header">
+            <div className="team-title-area">
+              <span className="tape-label">NOTRE ÉQUIPE</span>
+              <h2 className="team-title">
+                Des professionnels
+                <span className="team-title-accent">passionnés.</span>
+              </h2>
+            </div>
+            <div className="team-hand-note">
+              <span className="note-arrow">←</span>
+              <span>rencontrer l'équipe !</span>
+            </div>
+          </div>
+
+          {/* Polaroid grid */}
+          <div className="polaroid-grid">
+            {TEAM.map((t, i) => (
+              <div key={i} className={`polaroid-card polaroid-${i}`}>
+                {/* Tape on top */}
+                <div className={`polaroid-tape tape-${i}`}></div>
+                
+                {/* Photo */}
+                <div className="polaroid-photo-wrap">
+                  <img className="polaroid-photo" src={t.img} alt={t.name} />
+                  {/* Handwritten rating */}
+                  <div className="polaroid-rating">
+                    {[1,2,3,4,5].map(s => (
+                      <i key={s} className={`fa-${s <= t.rating ? 'solid' : 'regular'} fa-star`}></i>
+                    ))}
+                  </div>
+                </div>
+                
+                {/* Caption area */}
+                <div className="polaroid-caption">
+                  <div className="polaroid-name">{t.name}</div>
+                  <div className="polaroid-role">{t.role}</div>
+                </div>
+
+                {/* Info card below */}
+                <div className="polaroid-info">
+                  <div className="polaroid-spec">{t.spec}</div>
+                  <p className="polaroid-bio">{t.bio}</p>
+                  <div className="polaroid-exp">
+                    <span className="exp-badge">{t.experience}</span>
+                  </div>
+                  <button className="btn-polaroid" onClick={() => navigate('/booking')}>
+                    Réserver <i className="fa-solid fa-arrow-right"></i>
+                  </button>
+                </div>
+
+                {/* Handwritten note on some cards */}
+                {i === 0 && (
+                  <div className="card-note" style={{ top: '-12px', right: '-8px', transform: 'rotate(8deg)' }}>
+                    la meilleure !
+                  </div>
+                )}
+                {i === 2 && (
+                  <div className="card-note" style={{ bottom: '80px', left: '-12px', transform: 'rotate(-6deg)' }}>
+                    10 ans d'exp !
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Bottom scribble */}
+          <div className="team-scribble">
+            <span className="scribble-line">~~~~~~~~~~</span>
+            <span className="scribble-text">une équipe qui vous accueille avec le sourire</span>
+            <span className="scribble-line">~~~~~~~~~~</span>
+          </div>
         </div>
       </section>
 
-      {/* TEAM */}
-      <section className="team-section">
-        <div className="section-header">
-          <span className="section-tag">Notre Équipe</span>
-          <h2 className="section-title">
-            Des professionnels<br />
-            <span className="script" style={{ color: 'var(--primary)' }}>passionnés.</span>
-          </h2>
+      {/* SCHEDULE — Chalkboard Style */}
+      <section className="schedule-section">
+        {/* Chalk dust texture */}
+        <div className="chalk-dust"></div>
+
+        {/* Chalk scribbles decoration */}
+        <div className="chalk-scribble" style={{ top: '40px', left: '5%' }}></div>
+        <div className="chalk-scribble" style={{ bottom: '60px', right: '8%' }}></div>
+
+        <div className="schedule-content">
+          {/* Header */}
+          <div className="schedule-header">
+            <div className="chalk-title-wrap">
+              <span className="chalk-subtitle">nos horaires</span>
+              <h2 className="chalk-title">
+                Quand nous
+                <span className="chalk-accent"> trouver ?</span>
+              </h2>
+              <div className="chalk-underline"></div>
+            </div>
+            <div className="chalk-note">
+              <span className="chalk-note-icon"><i className="fa-solid fa-pencil"></i></span>
+              <span className="chalk-note-text">ouvert du lundi au samedi</span>
+            </div>
+          </div>
+
+          {/* Main content */}
+          <div className="schedule-board">
+            {/* Left: Calendar */}
+            <div className="chalk-calendar">
+              <div className="calendar-header">
+                <span className="calendar-month">
+                  <span className="month-arrow"><i className="fa-solid fa-chevron-left"></i></span>
+                  {new Date().toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })}
+                  <span className="month-arrow"><i className="fa-solid fa-chevron-right"></i></span>
+                </span>
+              </div>
+              
+              <div className="calendar-grid">
+                {SCHEDULE.map((s, i) => (
+                  <div key={i} className={`calendar-day ${i === dayIndex ? 'is-today' : ''} ${s.hours === 'Fermé' ? 'is-closed' : ''}`}>
+                    <div className="day-name">{s.day.slice(0, 3)}</div>
+                    <div className="day-number">{10 + i}</div>
+                    <div className="day-hours">{s.hours === 'Fermé' ? '✕' : s.hours.split(' - ')[0]}</div>
+                    {i === dayIndex && <div className="today-marker">aujourd'hui</div>}
+                  </div>
+                ))}
+              </div>
+
+              {/* Today highlight */}
+              <div className="today-highlight">
+                <div className="today-label">Aujourd'hui</div>
+                <div className="today-value">
+                  {SCHEDULE[dayIndex].hours === 'Fermé' ? 'Fermé' : SCHEDULE[dayIndex].hours}
+                </div>
+                {SCHEDULE[dayIndex].hours !== 'Fermé' && (
+                  <div className="today-note"><i className="fa-solid fa-arrow-right"></i> venez nous voir !</div>
+                )}
+              </div>
+            </div>
+
+            {/* Right: Contact info */}
+            <div className="chalk-contact">
+              <div className="contact-header">
+                <span className="contact-title">Nous trouver</span>
+                <span className="contact-doodle">~</span>
+              </div>
+
+              <div className="contact-list">
+                <div className="contact-item">
+                  <div className="contact-icon">
+                    <i className="fa-solid fa-location-dot"></i>
+                  </div>
+                  <div className="contact-info">
+                    <div className="contact-label">Adresse</div>
+                    <div className="contact-value">42 Rue de la Paix, 75002 Paris</div>
+                  </div>
+                </div>
+
+                <div className="contact-item">
+                  <div className="contact-icon">
+                    <i className="fa-solid fa-phone"></i>
+                  </div>
+                  <div className="contact-info">
+                    <div className="contact-label">Téléphone</div>
+                    <div className="contact-value">01 42 00 00 00</div>
+                  </div>
+                </div>
+
+                <div className="contact-item">
+                  <div className="contact-icon">
+                    <i className="fa-solid fa-envelope"></i>
+                  </div>
+                  <div className="contact-info">
+                    <div className="contact-label">Email</div>
+                    <div className="contact-value">contact@bookease.fr</div>
+                  </div>
+                </div>
+
+                <div className="contact-item">
+                  <div className="contact-icon">
+                    <i className="fa-solid fa-train"></i>
+                  </div>
+                  <div className="contact-info">
+                    <div className="contact-label">Accès</div>
+                    <div className="contact-value">Métro Opéra (L3, L7, L8)</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Map hint */}
+              <div className="chalk-map-hint">
+                <span className="map-pin"><i className="fa-solid fa-location-dot"></i></span>
+                <span className="map-text">à 2 min de la station</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom doodle */}
+          <div className="schedule-bottom">
+            <span className="doodle-wave"><i className="fa-solid fa-wave-square"></i></span>
+            <span className="bottom-text">nous vous attendons avec impatience !</span>
+            <span className="doodle-heart"><i className="fa-solid fa-heart"></i></span>
+          </div>
         </div>
-        <div className="team-grid">
-          {TEAM.map((t, i) => (
-            <div key={i} className="team-card">
-              <div className="team-img-wrap">
-                <img className="team-img" src={t.img} alt={t.name} />
-                <div className="team-rating">
+      </section>
+
+      {/* TESTIMONIALS — Post-it / Wall of Love */}
+      <section className="testimonials-section">
+        {/* Wall texture */}
+        <div className="wall-texture"></div>
+
+        {/* Decorative pins */}
+        <div className="wall-pin" style={{ top: '50px', left: '10%' }}></div>
+        <div className="wall-pin" style={{ top: '70px', right: '15%' }}></div>
+        <div className="wall-pin" style={{ bottom: '80px', left: '20%' }}></div>
+
+        {/* String decorations */}
+        <div className="photo-string" style={{ top: '30px', left: '5%', width: '90%' }}></div>
+
+        <div className="testimonials-content">
+          {/* Header */}
+          <div className="testimonials-header">
+            <div className="testimonials-title-area">
+              <span className="tape-label-dark">AVIS CLIENTS</span>
+              <h2 className="testimonials-title">
+                Ce que disent
+                <span className="testimonials-accent"> nos clients.</span>
+              </h2>
+            </div>
+            <div className="testimonials-badge">
+              <span className="badge-stars">
+                <i className="fa-solid fa-star"></i>
+                <i className="fa-solid fa-star"></i>
+                <i className="fa-solid fa-star"></i>
+                <i className="fa-solid fa-star"></i>
+                <i className="fa-solid fa-star"></i>
+              </span>
+              <span className="badge-text">4.9/5 sur Google</span>
+            </div>
+          </div>
+
+          {/* Post-it grid */}
+          <div className="postit-grid">
+            {TESTIMONIALS.map((t, i) => (
+              <div key={i} className={`postit-card postit-color-${i % 4}`}>
+                {/* Pin on top */}
+                <div className={`postit-pin pin-${i % 3}`}></div>
+                
+                {/* Quote mark */}
+                <div className="postit-quote">"</div>
+                
+                {/* Stars */}
+                <div className="postit-stars">
                   {[1,2,3,4,5].map(s => (
                     <i key={s} className={`fa-${s <= t.rating ? 'solid' : 'regular'} fa-star`}></i>
                   ))}
                 </div>
-              </div>
-              <div className="team-info">
-                <h3 className="team-name">{t.name}</h3>
-                <div className="team-role">{t.role}</div>
-                <div className="team-spec">{t.spec}</div>
-                <p className="team-bio">{t.bio}</p>
-                <div className="team-exp">
-                  <i className="fa-solid fa-briefcase"></i> {t.experience} d'expérience
+                
+                {/* Text */}
+                <p className="postit-text">{t.text}</p>
+                
+                {/* Author */}
+                <div className="postit-author">
+                  <div className="postit-avatar">{t.name[0]}</div>
+                  <div className="postit-author-info">
+                    <span className="postit-name">{t.name}</span>
+                    <span className="postit-source">via Google</span>
+                  </div>
                 </div>
-              </div>
-              <button className="btn btn-primary btn-sm" onClick={() => navigate('/booking')}>
-                Réserver
-              </button>
-            </div>
-          ))}
-        </div>
-      </section>
 
-      {/* SCHEDULE */}
-      <section className="schedule-section">
-        <div className="section-header">
-          <span className="section-tag">Horaires</span>
-          <h2 className="section-title">
-            Quand nous<br />
-            <span className="script" style={{ color: 'var(--primary)' }}>trouver ?</span>
-          </h2>
-        </div>
-        <div className="schedule-card">
-          <div className="schedule-list">
-            {SCHEDULE.map((s, i) => (
-              <div key={i} className={`schedule-row ${i === dayIndex ? 'today' : ''}`}>
-                <div className="schedule-day">
-                  {i === dayIndex && <span className="today-dot"></span>}
-                  {s.day}
-                </div>
-                <div className={`schedule-hours ${s.hours === 'Fermé' ? 'closed' : ''}`}>
-                  {s.hours}
-                </div>
+                {/* Tape effect */}
+                <div className={`postit-tape tape-pos-${i % 4}`}></div>
               </div>
             ))}
           </div>
-          <div className="schedule-contact">
-            <div className="schedule-contact-item">
-              <i className="fa-solid fa-location-dot"></i>
-              <div>
-                <div className="schedule-contact-label">Adresse</div>
-                <div className="schedule-contact-value">42 Rue de la Paix, 75002 Paris</div>
+
+          {/* Bottom note */}
+          <div className="testimonials-bottom">
+            <div className="love-meter">
+              <span className="love-label">Niveau d'amour client</span>
+              <div className="love-bar">
+                <div className="love-fill" style={{ width: '98%' }}></div>
               </div>
+              <span className="love-percent">98%</span>
             </div>
-            <div className="schedule-contact-item">
-              <i className="fa-solid fa-phone"></i>
-              <div>
-                <div className="schedule-contact-label">Téléphone</div>
-                <div className="schedule-contact-value">01 42 00 00 00</div>
-              </div>
-            </div>
-            <div className="schedule-contact-item">
-              <i className="fa-solid fa-envelope"></i>
-              <div>
-                <div className="schedule-contact-label">Email</div>
-                <div className="schedule-contact-value">contact@bookease.fr</div>
-              </div>
-            </div>
-            <div className="schedule-contact-item">
-              <i className="fa-solid fa-train"></i>
-              <div>
-                <div className="schedule-contact-label">Accès</div>
-                <div className="schedule-contact-value">Métro Opéra (L3, L7, L8)</div>
-              </div>
+            <div className="testimonials-note">
+              <span className="note-hand"><i className="fa-solid fa-heart"></i></span>
+              <span className="note-text">merci pour votre confiance !</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
-      <section className="testimonials-section">
-        <div className="section-header">
-          <span className="section-tag">Témoignages</span>
-          <h2 className="section-title">
-            Ce que disent<br />
-            <span className="script" style={{ color: 'var(--primary)' }}>nos clients.</span>
-          </h2>
-        </div>
-        <div className="testimonials-grid">
-          {TESTIMONIALS.map((t, i) => (
-            <div key={i} className="testimonial-card">
-              <div className="testimonial-stars">
-                {[1,2,3,4,5].map(s => (
-                  <i key={s} className={`fa-${s <= t.rating ? 'solid' : 'regular'} fa-star`}></i>
-                ))}
-              </div>
-              <p className="testimonial-text">"{t.text}"</p>
-              <div className="testimonial-author">
-                <div className="testimonial-avatar">{t.name[0]}</div>
-                <span>{t.name}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* FAQ */}
+      {/* FAQ — Carnet de notes / Notepad */}
       <section className="faq-section">
-        <div className="section-header">
-          <span className="section-tag">FAQ</span>
-          <h2 className="section-title">
-            Questions<br />
-            <span className="script" style={{ color: 'var(--primary)' }}>fréquentes.</span>
-          </h2>
-        </div>
-        <div className="faq-list">
-          {FAQ.map((f, i) => (
-            <div key={i} className={`faq-item ${openFaq === i ? 'open' : ''}`}>
-              <button className="faq-question" onClick={() => toggleFaq(i)}>
-                <span>{f.q}</span>
-                <i className={`fa-solid fa-chevron-${openFaq === i ? 'up' : 'down'}`}></i>
-              </button>
-              <div className="faq-answer">
-                <p>{f.a}</p>
-              </div>
+        {/* Notebook background */}
+        <div className="notebook-bg"></div>
+
+        <div className="faq-content">
+          {/* Header */}
+          <div className="faq-header">
+            <div className="notebook-tab">FAQ</div>
+            <div className="faq-title-area">
+              <h2 className="faq-title">
+                Questions
+                <span className="faq-accent"> fréquentes.</span>
+              </h2>
+              <p className="faq-subtitle">on répond à tout !</p>
             </div>
-          ))}
+            {/* Handwritten note */}
+            <div className="faq-scribble">
+              <span className="scribble-text">besoin d'aide ?</span>
+              <svg className="scribble-arrow" viewBox="0 0 60 30" fill="none">
+                <path d="M5 15 Q 20 5, 40 18 Q 45 22, 55 12" stroke="currentColor" strokeWidth="2" fill="none"/>
+                <path d="M48 8 L 55 12 L 48 16" stroke="currentColor" strokeWidth="2" fill="none"/>
+              </svg>
+            </div>
+          </div>
+
+          {/* Notepad items */}
+          <div className="notepad-list">
+            {FAQ.map((f, i) => (
+              <div key={i} className={`notepad-item ${openFaq === i ? 'open' : ''}`}>
+                {/* Checkbox style */}
+                <button className="notepad-question" onClick={() => toggleFaq(i)}>
+                  <div className="notepad-checkbox">
+                    <div className="checkbox-tick">
+                      {openFaq === i && (
+                        <svg viewBox="0 0 24 24" fill="none" className="tick-svg">
+                          <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      )}
+                    </div>
+                  </div>
+                  <span className="notepad-q-text">{f.q}</span>
+                  <div className={`notepad-arrow ${openFaq === i ? 'rotated' : ''}`}>
+                    <i className="fa-solid fa-chevron-right"></i>
+                  </div>
+                </button>
+                {openFaq === i && (
+                  <div className="notepad-answer">
+                    <p>{f.a}</p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Bottom note */}
+          <div className="faq-bottom">
+            <div className="faq-bottom-note">
+              <span className="note-icon"><i className="fa-solid fa-pencil"></i></span>
+              <span className="note-text-hand">encore des questions ? écrivez-nous !</span>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* CTA */}
+      {/* CTA — Invitation / Papier déchiré */}
       <section className="cta-section">
+        {/* Torn paper top edge */}
+        <div className="cta-tear-top"></div>
+
+        {/* Doodles */}
+        <svg className="cta-doodle cta-doodle-1" viewBox="0 0 100 100" fill="none">
+          <circle cx="50" cy="50" r="40" stroke="currentColor" strokeWidth="2" strokeDasharray="8 4"/>
+        </svg>
+        <svg className="cta-doodle cta-doodle-2" viewBox="0 0 80 80" fill="none">
+          <path d="M10 40 Q 40 10, 70 40 Q 40 70, 10 40" stroke="currentColor" strokeWidth="2"/>
+        </svg>
+
+        {/* Stamp effect */}
+        <div className="cta-stamp">
+          <div className="stamp-inner">
+            <span className="stamp-text">BOOK</span>
+            <span className="stamp-sub">EASE</span>
+            <span className="stamp-year">2026</span>
+          </div>
+        </div>
+
+        {/* Handwritten annotation */}
+        <div className="cta-scribble-top">
+          <span className="scribble-arrow-left"><i className="fa-solid fa-arrow-right"></i></span>
+          <span>dernière chance !</span>
+        </div>
+
+        {/* Main content */}
         <div className="cta-content">
+          <div className="cta-label">
+            <span className="label-line"></span>
+            <span className="label-text">OFFRE LIMITÉE</span>
+            <span className="label-line"></span>
+          </div>
           <h2 className="cta-title">
-            Prêt à simplifier votre salon ?
+            Prêt à simplifier<br />
+            <span className="cta-title-accent">votre salon ?</span>
           </h2>
           <p className="cta-sub">
             Rejoignez des milliers de salons qui font déjà confiance à BookEase.
           </p>
           <div className="cta-actions">
-            <button className="btn btn-primary btn-lg" onClick={() => navigate('/booking')}>
-              <i className="fa-solid fa-rocket"></i> Commencer maintenant
+            <button className="cta-btn cta-btn-primary" onClick={() => navigate('/booking')}>
+              <span className="btn-icon"><i className="fa-solid fa-rocket"></i></span>
+              <span className="btn-content">
+                <span className="btn-main">Commencer maintenant</span>
+                <span className="btn-sub">c'est gratuit</span>
+              </span>
             </button>
-            <button className="btn btn-secondary btn-lg" onClick={() => navigate('/email')}>
-              <i className="fa-solid fa-envelope"></i> Voir l'email
+            <button className="cta-btn cta-btn-secondary" onClick={() => navigate('/email')}>
+              <span className="btn-icon"><i className="fa-solid fa-envelope"></i></span>
+              <span className="btn-content">
+                <span className="btn-main">Voir l'email</span>
+                <span className="btn-sub">démo gratuite</span>
+              </span>
             </button>
           </div>
         </div>
+
+        {/* Bottom doodle */}
+        <div className="cta-bottom-note">
+          <svg className="cta-heart" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+          <span className="cta-bottom-text">merci de votre confiance !</span>
+        </div>
+
+        {/* Torn paper bottom edge */}
+        <div className="cta-tear-bottom"></div>
       </section>
 
-      {/* FOOTER */}
+      {/* FOOTER — Carte Postale */}
       <footer className="landing-footer">
-        <div className="footer-top">
-          <div className="footer-brand">
-            <div className="footer-logo">
-              <i className="fa-solid fa-scissors"></i>
-              <span>BookEase</span>
-            </div>
-            <p className="footer-tagline">La réservation de salon, simplifiée.</p>
-            <div className="footer-socials">
-              <a href="#" className="footer-social"><i className="fa-brands fa-instagram"></i></a>
-              <a href="#" className="footer-social"><i className="fa-brands fa-facebook-f"></i></a>
-              <a href="#" className="footer-social"><i className="fa-brands fa-twitter"></i></a>
-              <a href="#" className="footer-social"><i className="fa-brands fa-tiktok"></i></a>
-            </div>
-          </div>
-          <div className="footer-col">
-            <h4 className="footer-col-title">Navigation</h4>
-            <button className="footer-link" onClick={() => navigate('/')}>Accueil</button>
-            <button className="footer-link" onClick={() => navigate('/booking')}>Réservation</button>
-            <button className="footer-link" onClick={() => navigate('/dashboard')}>Dashboard</button>
-            <button className="footer-link" onClick={() => navigate('/email')}>Email</button>
-          </div>
-          <div className="footer-col">
-            <h4 className="footer-col-title">Services</h4>
-            <span className="footer-text-item">Coupe Classique — 25 €</span>
-            <span className="footer-text-item">Coupe + Barbe — 38 €</span>
-            <span className="footer-text-item">Coloration — 65 €</span>
-            <span className="footer-text-item">Brushing — 30 €</span>
-          </div>
-          <div className="footer-col">
-            <h4 className="footer-col-title">Contact</h4>
-            <span className="footer-text-item"><i className="fa-solid fa-location-dot"></i> 42 Rue de la Paix, 75002</span>
-            <span className="footer-text-item"><i className="fa-solid fa-phone"></i> 01 42 00 00 00</span>
-            <span className="footer-text-item"><i className="fa-solid fa-envelope"></i> contact@bookease.fr</span>
+        {/* Torn paper top edge */}
+        <div className="footer-tear-top"></div>
+
+        {/* Stamp */}
+        <div className="footer-stamp">
+          <div className="footer-stamp-inner">
+            <span className="footer-stamp-text">BOOK</span>
+            <span className="footer-stamp-sub">EASE</span>
+            <span className="footer-stamp-year">2026</span>
           </div>
         </div>
-        <div className="footer-bottom">
-          <span>© 2026 BookEase. Tous droits réservés.</span>
-          <div className="footer-bottom-links">
-            <a href="#">Mentions légales</a>
-            <a href="#">Politique de confidentialité</a>
-            <a href="#">CGV</a>
+
+        <div className="footer-content">
+          {/* Main grid */}
+          <div className="footer-grid">
+            {/* Brand column */}
+            <div className="footer-brand">
+              <div className="footer-logo">
+                <img src="/image.png" alt="BookEase" className="footer-logo-img" />
+                <span className="footer-logo-text">BookEase</span>
+              </div>
+              <p className="footer-tagline">La réservation de salon, simplifiée.</p>
+              <div className="footer-socials">
+                <a href="#" className="footer-social" aria-label="Instagram"><i className="fa-brands fa-instagram"></i></a>
+                <a href="#" className="footer-social" aria-label="Facebook"><i className="fa-brands fa-facebook-f"></i></a>
+                <a href="#" className="footer-social" aria-label="Twitter"><i className="fa-brands fa-twitter"></i></a>
+                <a href="#" className="footer-social" aria-label="TikTok"><i className="fa-brands fa-tiktok"></i></a>
+              </div>
+              {/* Handwritten note */}
+              <div className="footer-handnote">
+                <span className="handnote-arrow"><i className="fa-solid fa-arrow-right"></i></span>
+                <span className="handnote-text">merci de nous faire confiance !</span>
+              </div>
+            </div>
+
+            {/* Navigation */}
+            <div className="footer-col">
+              <div className="footer-col-header">
+                <span className="footer-col-dash">—</span>
+                <h4 className="footer-col-title">Navigation</h4>
+              </div>
+              <button className="footer-link" onClick={() => navigate('/')}>
+                <span className="link-bullet">•</span> Accueil
+              </button>
+              <button className="footer-link" onClick={() => navigate('/booking')}>
+                <span className="link-bullet">•</span> Réservation
+              </button>
+              <button className="footer-link" onClick={() => navigate('/dashboard')}>
+                <span className="link-bullet">•</span> Dashboard
+              </button>
+              <button className="footer-link" onClick={() => navigate('/email')}>
+                <span className="link-bullet">•</span> Email
+              </button>
+            </div>
+
+            {/* Services */}
+            <div className="footer-col">
+              <div className="footer-col-header">
+                <span className="footer-col-dash">—</span>
+                <h4 className="footer-col-title">Services</h4>
+              </div>
+              <span className="footer-text-item">Coupe Classique <span className="footer-price">25 €</span></span>
+              <span className="footer-text-item">Coupe + Barbe <span className="footer-price">38 €</span></span>
+              <span className="footer-text-item">Coloration <span className="footer-price">65 €</span></span>
+              <span className="footer-text-item">Brushing <span className="footer-price">30 €</span></span>
+            </div>
+
+            {/* Contact */}
+            <div className="footer-col">
+              <div className="footer-col-header">
+                <span className="footer-col-dash">—</span>
+                <h4 className="footer-col-title">Contact</h4>
+              </div>
+              <div className="footer-contact-item">
+                <span className="contact-emoji"><i className="fa-solid fa-location-dot"></i></span>
+                <span>42 Rue de la Paix, 75002</span>
+              </div>
+              <div className="footer-contact-item">
+                <span className="contact-emoji"><i className="fa-solid fa-phone"></i></span>
+                <span>01 42 00 00 00</span>
+              </div>
+              <div className="footer-contact-item">
+                <span className="contact-emoji"><i className="fa-solid fa-envelope"></i></span>
+                <span>contact@bookease.fr</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom bar */}
+          <div className="footer-bottom">
+            <span className="footer-copyright">© 2026 BookEase — tous droits réservés</span>
+            <div className="footer-bottom-links">
+              <a href="#">Mentions légales</a>
+              <span className="footer-dot">·</span>
+              <a href="#">Confidentialité</a>
+              <span className="footer-dot">·</span>
+              <a href="#">CGV</a>
+            </div>
           </div>
         </div>
       </footer>

@@ -7,11 +7,197 @@
     <title>BookEase</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Special+Elite&family=Cinzel:wght@700;800&family=Syne:wght@700;800&family=Montserrat:wght@900&family=Reenie+Beanie&family=Caveat:wght@400;700&family=Patrick+Hand&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+      /* SPLASH SCREEN */
+      #splash {
+        position: fixed;
+        inset: 0;
+        z-index: 99999;
+        background: #fdf8f3;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.6s ease, visibility 0.6s ease;
+      }
+      #splash.hide {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      /* Paper texture */
+      #splash::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+          repeating-linear-gradient(
+            0deg,
+            transparent 0px,
+            transparent 31px,
+            rgba(180,160,140,0.08) 31px,
+            rgba(180,160,140,0.08) 32px
+          );
+        pointer-events: none;
+      }
+
+      /* Scissors icon */
+      .splash-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #c0392b, #e74c3c);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 24px;
+        animation: splashPulse 1.5s ease-in-out infinite;
+        box-shadow: 0 8px 32px rgba(192,57,43,0.2);
+      }
+      .splash-icon i {
+        font-size: 2rem;
+        color: #fff;
+        animation: splashSpin 2s ease-in-out infinite;
+      }
+
+      @keyframes splashPulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+      }
+      @keyframes splashSpin {
+        0% { transform: rotate(0deg); }
+        25% { transform: rotate(-15deg); }
+        75% { transform: rotate(15deg); }
+      }
+
+      /* Logo text */
+      .splash-logo {
+        font-family: 'Caveat', cursive;
+        font-size: 3rem;
+        font-weight: 700;
+        color: #2d2d2d;
+        margin-bottom: 8px;
+        letter-spacing: -0.02em;
+      }
+
+      /* Tagline */
+      .splash-tagline {
+        font-family: 'Patrick Hand', cursive;
+        font-size: 1.1rem;
+        color: #aaa;
+        margin-bottom: 40px;
+      }
+
+      /* Loading bar */
+      .splash-loader {
+        width: 200px;
+        height: 4px;
+        background: rgba(0,0,0,0.06);
+        border-radius: 2px;
+        overflow: hidden;
+        position: relative;
+      }
+      .splash-loader::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, #c0392b, transparent);
+        animation: splashLoad 1.2s ease-in-out infinite;
+      }
+      @keyframes splashLoad {
+        0% { left: -100%; }
+        100% { left: 100%; }
+      }
+
+      /* Doodles */
+      .splash-doodle {
+        position: absolute;
+        opacity: 0.06;
+        pointer-events: none;
+      }
+      .splash-doodle-1 {
+        top: 15%;
+        left: 10%;
+        font-size: 4rem;
+        animation: float 4s ease-in-out infinite;
+      }
+      .splash-doodle-2 {
+        bottom: 20%;
+        right: 12%;
+        font-size: 3rem;
+        animation: float 5s ease-in-out infinite reverse;
+      }
+      .splash-doodle-3 {
+        top: 30%;
+        right: 8%;
+        font-size: 2.5rem;
+        animation: float 3.5s ease-in-out infinite;
+      }
+      .splash-doodle-4 {
+        bottom: 30%;
+        left: 8%;
+        font-size: 3.5rem;
+        animation: float 4.5s ease-in-out infinite reverse;
+      }
+
+      @keyframes float {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-10px) rotate(5deg); }
+      }
+
+      /* Corners */
+      .splash-corner {
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        border: 2px dashed rgba(0,0,0,0.06);
+      }
+      .splash-corner-tl { top: 20px; left: 20px; border-right: none; border-bottom: none; border-radius: 4px 0 0 0; }
+      .splash-corner-tr { top: 20px; right: 20px; border-left: none; border-bottom: none; border-radius: 0 4px 0 0; }
+      .splash-corner-bl { bottom: 20px; left: 20px; border-right: none; border-top: none; border-radius: 0 0 0 4px; }
+      .splash-corner-br { bottom: 20px; right: 20px; border-left: none; border-top: none; border-radius: 0 0 4px 0; }
+    </style>
   </head>
   <body>
+    <!-- SPLASH SCREEN -->
+    <div id="splash">
+      <div class="splash-corner splash-corner-tl"></div>
+      <div class="splash-corner splash-corner-tr"></div>
+      <div class="splash-corner splash-corner-bl"></div>
+      <div class="splash-corner splash-corner-br"></div>
+
+      <span class="splash-doodle splash-doodle-1"><i class="fa-solid fa-scissors"></i></span>
+      <span class="splash-doodle splash-doodle-2"><i class="fa-solid fa-palette"></i></span>
+      <span class="splash-doodle splash-doodle-3"><i class="fa-solid fa-wind"></i></span>
+      <span class="splash-doodle splash-doodle-4"><i class="fa-solid fa-droplet"></i></span>
+
+      <div class="splash-icon">
+        <i class="fa-solid fa-scissors"></i>
+      </div>
+      <div class="splash-logo">BookEase</div>
+      <div class="splash-tagline">La réservation de salon, simplifiée.</div>
+      <div class="splash-loader"></div>
+    </div>
+
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      // Hide splash after React mounts
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          var splash = document.getElementById('splash');
+          if (splash) {
+            splash.classList.add('hide');
+            setTimeout(function() { splash.remove(); }, 600);
+          }
+        }, 1200);
+      });
+    </script>
   </body>
 </html>

@@ -19,6 +19,7 @@ function App() {
             <NavLink to="/dashboard">Dashboard</NavLink>
             <NavLink to="/email">Email</NavLink>
           </div>
+          <span className="nav-annotation">on vous attend !</span>
         </nav>
         <main className="app-main">
           <Routes>
